@@ -1,0 +1,23 @@
+import requests
+import pandas as pd
+
+# API URL
+url = "https://api.data.gov.sg/v1/environment/2-hour-weather-forecast"
+
+# Send a request to the API
+response = requests.get(url)
+
+# Check if the request was successful
+if response.status_code == 200:
+    data = response.json()
+
+    # Extract forecast data
+    forecasts = data['items'][0]['forecasts']
+
+    # Convert data into a Pandas DataFrame for easy viewing
+    df = pd.DataFrame(forecasts)
+
+    # Display area and forecast in a simple table
+    print(df[['area', 'forecast']])
+else:
+    print(f"Error: Unable to fetch data (status code: {response.status_code})")
